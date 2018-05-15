@@ -10,7 +10,7 @@ RUN set -ex \
     && apt-get install -y $buildDeps \
     && apt-get install -y $additionalPkgs \
     && wget -qO - https://www.torproject.org/dist/tor-${VERSION}.tar.gz | tar xvz -C /tmp \
-    && ( cd /tmp/${VERSION} \
+    && ( cd /tmp/tor-${VERSION} \
         && ./configure \
         && make \
         && make install ) \
@@ -18,15 +18,7 @@ RUN set -ex \
     && apt-get purge -y $buildDeps \
     && apt-get clean
 
-RUN    echo ">> Common settings" \
-    && echo "Log notice stdout" >> /etc/torrc \
-    && echo "HeartbeatPeriod 30 minutes" >> /etc/torrc \
-    && echo ">> Clients settings" \
-    && echo "SocksPort 0.0.0.0:9150" >> /etc/torrc \
-    && echo ">> Relay settings"
-    && echo "ORPort 0.0.0.0:9100" >> /etc/torrc \
-    && echo "ExitRelay 0" >> /etc/torrc
+COPY docker-entrypoint.sh /docker-entrypoint.sh
 
-EXPOSE 9150 9100
-
-CMD /usr/local/bin/tor -f /etc/torrc
+ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["/usr/local/bin/tor", "-f", "/etc/torrc"]
