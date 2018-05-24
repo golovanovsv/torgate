@@ -28,6 +28,8 @@ if [ ! -s $TCONF ]; then
     # Enable exit relay
     if [ -n "$EXITNODE" ]; then
         echo "ExitRelay 1" >> $TCONF
+    else
+        echo "ExitRelay 0" >> $TCONF
     fi
 fi
 
