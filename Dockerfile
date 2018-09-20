@@ -1,7 +1,7 @@
 FROM debian:stretch-slim
 MAINTAINER GolovanovSV <golovanovsv@gmail.com>
 
-ENV VERSION 0.3.2.10
+ENV VERSION 0.3.2.11
 
 RUN set -ex \
     && buildDeps='curl gcc make' \
