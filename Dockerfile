@@ -1,7 +1,9 @@
 FROM debian:stretch-slim
 MAINTAINER GolovanovSV <golovanovsv@gmail.com>
 
-ENV VERSION 0.3.3.9
+ENV VERSION 0.3.4.8
+
+COPY docker-entrypoint.sh /docker-entrypoint.sh
 
 RUN set -ex \
     && buildDeps='curl gcc make' \
@@ -18,9 +20,8 @@ RUN set -ex \
     && apt-get remove -y $buildDeps \
     && apt-get purge -y $buildDeps \
     && apt-get autoremove -y \
-    && apt-get clean
-
-COPY docker-entrypoint.sh /docker-entrypoint.sh
+    && apt-get clean \
+    && chmod 755 /docker-entrypoint.sh
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["/usr/local/bin/tor", "-f", "/etc/torrc"]
