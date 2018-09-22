@@ -31,6 +31,19 @@ if [ ! -s $TCONF ]; then
     else
         echo "ExitRelay 0" >> $TCONF
     fi
+
+    if [ -n "$NICKNAME" ]; then
+        echo "Nickname $NICKNAME" >> $TCONF
+    fi
+
+    if [ -n "$CONTACTINFO" ]; then
+        echo "ContactInfo $CONTACTINFO" >> $TCONF
+    fi
+
+    if [ -n "$CONTROLPORT" ] && [ -n "$HASHEDCONTROLPASSWORD" ]; then
+        echo "ControlPort $CONTROLPORT" >> $TCONF
+        echo "HashedControlPassword $HASHEDCONTROLPASSWORD" >> $TCONF
+    fi
 fi
 
 exec "$@"
