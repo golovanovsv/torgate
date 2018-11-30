@@ -23,5 +23,6 @@ RUN set -ex \
     && apt-get clean \
     && chmod 755 /docker-entrypoint.sh
 
+USER 1000:1000
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["/usr/local/bin/tor", "-f", "/etc/torrc"]
