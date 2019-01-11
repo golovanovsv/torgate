@@ -1,0 +1,41 @@
+stages:
+  - build
+  - test
+  - publish
+
+build image:
+  stage: build
+  script:
+    - docker build -t golovanovsv/torgate:$CI_COMMIT_SHA .
+
+test image:
+  stage: test
+  script:
+    - docker run --rm -p 9150 golovanovsv/torgate:$CI_COMMIT_SHA cat /etc/torrc
+
+publish latest:
+  stage: publish
+  script:
+    - docker tag golovanovsv/torgate:$CI_COMMIT_SHA golovanovsv/torgate:latest
+    - docker login -u $DH_USERNAME -p $DH_PASSWORD
+    - docker push golovanovsv/torgate:latest
+  only:
+    - master
+
+publish tag:
+  stage: publish
+  script:
+    - docker tag golovanovsv/torgate:$CI_COMMIT_SHA golovanovsv/torgate:$CI_COMMIT_TAG
+    - docker login -u $DH_USERNAME -p $DH_PASSWORD
+    - docker push golovanovsv/torgate:$CI_COMMIT_TAG
+  only:
+    - tags
+
+publish dev:
+  stage: publish
+  script:
+    - docker tag golovanovsv/torgate:$CI_COMMIT_SHA golovanovsv/torgate:dev
+    - docker login -u $DH_USERNAME -p $DH_PASSWORD
+    - docker push golovanovsv/torgate:dev
+  only:
+    - develop

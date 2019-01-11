@@ -1,7 +1,7 @@
 FROM debian:stretch-slim
 MAINTAINER GolovanovSV <golovanovsv@gmail.com>
 
-ENV VERSION 0.3.4.9
+ENV VERSION 0.3.5.7
 
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 
@@ -23,6 +23,5 @@ RUN set -ex \
     && apt-get clean \
     && chmod 755 /docker-entrypoint.sh
 
-USER 1000:1000
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["/usr/local/bin/tor", "-f", "/etc/torrc"]
