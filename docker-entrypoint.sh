@@ -7,7 +7,7 @@ DATADIR="/var/tor"
 if [[ ! -s "$TCONF" ]]; then
 
     # Making tor user
-    adduser --no-create-home tor
+    adduser --no-create-home --disabled-password --gecos "User for running TOR" tor
 
     # Making dirs
     mkdir -p ${DATADIR}
