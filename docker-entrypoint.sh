@@ -11,6 +11,8 @@ if [[ ! -s "$TCONF" ]]; then
 
     # Making dirs
     mkdir -p ${DATADIR}
+    # Change owner if data exist
+    chown -R tor:tor ${DATADIR}
 
     # By default TOR starting as SOCKS proxy
     echo "Making TOR configuration file"
