@@ -11,7 +11,7 @@ build image:
 test image:
   stage: test
   script:
-    - docker run --rm -p 9150 golovanovsv/torgate:$CI_COMMIT_SHA cat /etc/torrc
+    - docker run --rm -p 9150:9150 golovanovsv/torgate:$CI_COMMIT_SHA cat /etc/torrc
 
 publish latest:
   stage: publish
