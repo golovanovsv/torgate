@@ -1,7 +1,7 @@
 FROM debian:stretch-slim
 LABEL maintainer="GolovanovSV <golovanovsv@gmail.com>"
 
-ENV VERSION 0.4.1.7
+ENV VERSION 0.4.2.5
 
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 
