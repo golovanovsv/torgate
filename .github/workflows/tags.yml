@@ -1,8 +1,8 @@
-name: build develop
+name: build master
 on:
   push:
-    branches:
-    - develop
+    tags:
+    - '*'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -10,7 +10,9 @@ jobs:
     - uses: actions/checkout@v2
     - name: get commit sha
       id: sha
-      run: echo "::set-output name=sha::$(git rev-parse --short HEAD)"
+      run: |
+        echo "::set-output name=sha::$(git rev-parse --short HEAD)"
+        echo "::set-output name=tag::$(git tag --points-at HEAD)"
     - name: build image
       run: docker build -t golovanovsv/torgate:${{ steps.sha.outputs.sha }} .
     - name: test image
@@ -19,5 +21,5 @@ jobs:
       run: docker login -u ${{ secrets.DHUB_USERNAME }} -p ${{ secrets.DHUB_TOKEN }}
     - name: publish image
       run: |
-        docker tag golovanovsv/torgate:${{ steps.sha.outputs.sha }} golovanovsv/torgate:latest
-        docker push golovanovsv/torgate:dev
+        docker tag golovanovsv/torgate:${{ steps.sha.outputs.sha }} golovanovsv/torgate:${{ steps.sha.outputs.tag }}
+        docker push golovanovsv/torgate:${{ steps.sha.outputs.tag }}
