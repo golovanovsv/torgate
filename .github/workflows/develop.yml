@@ -1,0 +1,22 @@
+name: build develop
+on:
+  push:
+    branches:
+    - develop
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: build image
+      run: |
+        export CI_COMMIT_SHA=`git rev-parse --short HEAD`
+        docker build -t golovanovsv/torgate:$CI_COMMIT_SHA .
+    - name: test image
+      run: docker run --rm -p 9150:9150 golovanovsv/torgate:$CI_COMMIT_SHA cat /etc/torrc
+    - name: login to registry
+      run: docker login -u ${{ secrets.DHUB_USERNAME }} -p ${{ secrets.DHUB_TOKEN }}
+    - name: publish image
+      run: |
+        docker tag golovanovsv/torgate:$CI_COMMIT_SHA golovanovsv/torgate:latest
+        docker push golovanovsv/torgate:latest
