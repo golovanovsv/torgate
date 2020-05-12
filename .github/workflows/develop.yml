@@ -19,5 +19,5 @@ jobs:
       run: docker login -u ${{ secrets.DHUB_USERNAME }} -p ${{ secrets.DHUB_TOKEN }}
     - name: publish image
       run: |
-        docker tag golovanovsv/torgate:${{ steps.sha.outputs.sha }} golovanovsv/torgate:latest
+        docker tag golovanovsv/torgate:${{ steps.sha.outputs.sha }} golovanovsv/torgate:dev
         docker push golovanovsv/torgate:dev
