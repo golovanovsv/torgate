@@ -1,3 +1,6 @@
+# Warning!
+# This file not longer used!
+
 stages:
   - build
   - test
