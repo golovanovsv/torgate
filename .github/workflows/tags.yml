@@ -1,4 +1,4 @@
-name: build master
+name: build tags
 on:
   push:
     tags:
